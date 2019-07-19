@@ -9,14 +9,11 @@ public class WeaponFireController : MonoBehaviour
     GameObject ShotPrefab;
 
     public AudioClip audioShot;
-    
-    [SerializeField]
+
+    [Header("Shooting")]
     int gunAmmo;
-    [SerializeField]
     float shootStartTime;
-    [SerializeField]
     float shootInterval;
-    [SerializeField]
     float gunShotRange;
 
     bool fired;
@@ -26,6 +23,8 @@ public class WeaponFireController : MonoBehaviour
     public GameObject Player3D;
     public Rigidbody player3DRigidbody;
     public Player3DScript playerScript;
+
+    public ObjectPool projectilePool;
 
     float player3DSpeed;
 
@@ -42,6 +41,19 @@ public class WeaponFireController : MonoBehaviour
     {
         if (fired == true)
         {
+            GameObject bullet = projectilePool.GetObject();
+
+            bullet.transform.position = gun.position;
+            bullet.transform.rotation = gun.rotation;
+
+            //to calculate the players velocity
+            float playersVelocity = playerScript.currentVel.z * 50f;
+
+            bullet.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, gunShotRange + playersVelocity);
+
+            /*
+            //other solution for shooting
+            
             GameObject gunShotInstance = Instantiate(ShotPrefab, gun.position, gun.rotation);
             gunShotInstance.transform.SetParent(transform.parent);
 
@@ -51,8 +63,9 @@ public class WeaponFireController : MonoBehaviour
 
             gunShotInstance.transform.position = transform.position;
             gunShotInstance.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, gunShotRange + playersVelocity);
-
+            
             Destroy(gunShotInstance, 3f);
+            */
         }
     }
 

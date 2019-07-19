@@ -17,16 +17,6 @@ public class PlayerProjectileBehaviour : MonoBehaviour {
     //[SerializeField]
     //float enemyExplosionDurationSound = 1.2f;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     private void OnTriggerEnter(Collider otherCollider)
     {
         if (otherCollider.tag == "Obstacle")
@@ -67,5 +57,14 @@ public class PlayerProjectileBehaviour : MonoBehaviour {
                 OnKill();
             }
         }
+
+        if (otherCollider.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+            Destroy(otherCollider.gameObject);
+        }
+
+        //disable bullet
+        gameObject.SetActive(false);
     }
 }
