@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyGunBehaviour : MonoBehaviour {
 
-    public GameObject bulletPrefab;
+    public ObjectPool projectilePool;
 
     [SerializeField]
     float shootingInterval = 1.5f;
@@ -47,12 +47,12 @@ public class EnemyGunBehaviour : MonoBehaviour {
         {
             shootingTimer = shootingInterval;
 
-            GameObject bulletInstance = Instantiate(bulletPrefab);
-            bulletInstance.transform.SetParent(transform.parent);
-            bulletInstance.transform.position = transform.position;
-            bulletInstance.GetComponent<Rigidbody>().velocity = new Vector3(bulletSpreadX, bulletSpreadY, -bulletSpeedZ);
+            GameObject bullet = projectilePool.GetObject();
+
+            bullet.transform.SetParent(transform.parent);
+            bullet.transform.position = transform.position;
+            bullet.GetComponent<Rigidbody>().velocity = new Vector3(bulletSpreadX, bulletSpreadY, -bulletSpeedZ);
             AudioSource.PlayClipAtPoint(enemyProjectileShotSound, transform.position);
-            Destroy(bulletInstance, bulletLifeTime);
         }
     }
 }

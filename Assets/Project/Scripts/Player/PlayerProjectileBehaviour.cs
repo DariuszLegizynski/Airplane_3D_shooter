@@ -58,12 +58,6 @@ public class PlayerProjectileBehaviour : MonoBehaviour {
             }
         }
 
-        if (otherCollider.CompareTag("Player"))
-        {
-            Destroy(gameObject);
-            Destroy(otherCollider.gameObject);
-        }
-
         //disable bullet
         gameObject.SetActive(false);
     }

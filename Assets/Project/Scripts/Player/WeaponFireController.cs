@@ -5,16 +5,13 @@ using UnityEngine.UI;
 
 public class WeaponFireController : MonoBehaviour
 {
-    [SerializeField]
-    GameObject ShotPrefab;
-
     public AudioClip audioShot;
 
     [Header("Shooting")]
-    int gunAmmo;
-    float shootStartTime;
-    float shootInterval;
-    float gunShotRange;
+    public int gunAmmo;
+    public float shootStartTime;
+    public float shootInterval;
+    public float gunShotRange;
 
     bool fired;
 
@@ -43,11 +40,15 @@ public class WeaponFireController : MonoBehaviour
         {
             GameObject bullet = projectilePool.GetObject();
 
-            bullet.transform.position = gun.position;
-            bullet.transform.rotation = gun.rotation;
+            bullet.transform.SetParent(transform.parent);
+
+            AudioSource.PlayClipAtPoint(audioShot, transform.position);
 
             //to calculate the players velocity
             float playersVelocity = playerScript.currentVel.z * 50f;
+
+            bullet.transform.position = transform.position;
+            //bullet.transform.rotation = gun.rotation;
 
             bullet.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, gunShotRange + playersVelocity);
 

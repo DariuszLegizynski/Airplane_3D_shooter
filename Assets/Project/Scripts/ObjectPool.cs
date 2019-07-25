@@ -7,9 +7,9 @@ public class ObjectPool : MonoBehaviour
     public GameObject objPrefab;
     public int createOnStart;
 
-    List<GameObject> pooleObjs = new List<GameObject>();
+    private List<GameObject> pooledObjs = new List<GameObject>();
 
-    private void Start()
+    void Start()
     {
         for (int x = 0; x < createOnStart; x++)
         {
@@ -21,14 +21,14 @@ public class ObjectPool : MonoBehaviour
     {
         GameObject obj = Instantiate(objPrefab);
         obj.SetActive(false);
-        pooleObjs.Add(obj);
+        pooledObjs.Add(obj);
 
         return obj;
     }
 
     public GameObject GetObject()
     {
-        GameObject obj = pooleObjs.Find(x => x.activeInHierarchy == false);
+        GameObject obj = pooledObjs.Find(x => x.activeInHierarchy == false);
 
         if (obj == null)
         {
